@@ -44,19 +44,8 @@ export class Api {
     data: any = {},
     configs: AxiosRequestConfig = {},
   ) {
-    try {
-      params.__T__ = new Date().getMilliseconds();
-
-      return this.instance.request({
-        ...configs,
-        url: url,
-        method: method,
-        params: params,
-        data: data,
-      });
-    } catch (error: any) {
-      return error;
-    }
+    const requestConfigs: AxiosRequestConfig = { ...configs, url, method, params, data };
+    return this.instance.request(requestConfigs);
   }
 
   public async get(url: string, params: any = {}, configs: AxiosRequestConfig = {}) {
