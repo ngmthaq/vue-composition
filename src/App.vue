@@ -6,12 +6,14 @@ import { usePromise } from "./hooks";
 
 const id = ref<number>(1);
 
-const [data, error, status, fetch, reset, abort] = usePromise((configs) =>
-  new TodoRemoteService().getTodo(id.value, configs),
-);
+const [data, error, status, fetch, reset] = usePromise((configs) => new TodoRemoteService().getTodo(id.value, configs));
 
 const handleClick = () => {
   fetch();
+};
+
+const handleReset = () => {
+  reset(true);
 };
 </script>
 
@@ -21,7 +23,7 @@ const handleClick = () => {
   <p v-else-if="status === 'rejected'">Error: {{ error?.message }}</p>
   <p v-else-if="status === 'pending'">Loading</p>
   <button @click="handleClick">Change Todo</button>
-  <button @click="abort">Clear</button>
+  <button @click="handleReset">Clear</button>
 </template>
 
 <style scoped></style>

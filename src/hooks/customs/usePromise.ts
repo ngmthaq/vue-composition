@@ -11,7 +11,7 @@ export function usePromise<M>(
   ComputedRef<any>,
   ComputedRef<UsePromiseStatus>,
   () => Promise<void>,
-  () => void,
+  (isAbort?: boolean) => void,
   () => void,
 ] {
   const abortController = ref<AbortController>(new AbortController());
@@ -34,10 +34,8 @@ export function usePromise<M>(
       state.error = null;
       state.status = "fulfilled";
     } catch (error: any) {
-      console.warn(error);
-      state.data = null;
+      console.error(error);
       if (error instanceof CanceledError) {
-        state.error = null;
         state.status = "idle";
       } else {
         state.data = null;
