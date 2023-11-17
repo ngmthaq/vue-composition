@@ -68,3 +68,5 @@ export class Api {
     return this.request(url, "delete".toUpperCase(), {}, data, configs);
   }
 }
+
+export const api = new Api();

@@ -5,3 +5,5 @@ export class ObjectUtils {
     return lodash.isEqual(object1, object2);
   }
 }
+
+export const objectUtils = new ObjectUtils();
