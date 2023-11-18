@@ -1,5 +1,56 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onBeforeMount, onUnmounted, ref } from "vue";
+import { APP_CONST } from "@/const";
+import { useEventBus } from "@/hooks";
+
+const eventBus = useEventBus();
+
+const isLoading = ref<boolean>(false);
+
+const handleOpenLoading = (open: boolean) => {
+  isLoading.value = open;
+};
+
+onBeforeMount(() => {
+  eventBus.on(APP_CONST.EVENT_BUS.openCircularLoading, handleOpenLoading);
+});
+
+onUnmounted(() => {
+  eventBus.off(APP_CONST.EVENT_BUS.openCircularLoading, handleOpenLoading);
+});
+</script>
 
 <template>
-  <div></div>
+  <Transition>
+    <div class="circular-loading" v-show="isLoading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </Transition>
 </template>
+
+<style scoped lang="scss">
+.circular-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $z-index-common-loading;
+  background-color: rgba($color: $black, $alpha: 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.1s linear;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

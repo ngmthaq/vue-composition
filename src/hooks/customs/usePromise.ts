@@ -7,9 +7,7 @@ export function usePromise<M>(
   callback: UsePromiseCallback<M>,
   options: UsePromiseOptions = { immediate: true },
 ): [
-  ComputedRef<UnwrapRef<M> | null>,
-  ComputedRef<any>,
-  ComputedRef<UsePromiseStatus>,
+  { data: ComputedRef<UnwrapRef<M> | null>; error: ComputedRef<any>; status: ComputedRef<UsePromiseStatus> },
   () => Promise<void>,
   (isAbort?: boolean) => void,
   () => void,
@@ -64,5 +62,5 @@ export function usePromise<M>(
     }
   });
 
-  return [data, error, status, fetch, reset, abort];
+  return [{ data, error, status }, fetch, reset, abort];
 }
