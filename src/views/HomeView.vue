@@ -22,7 +22,7 @@ const handleReset = () => {
 };
 
 const handleNotice = () => {
-  notification.append({ message: "Test", variant: "success" });
+  notification.append({ message: "Test Test Test Test Test", variant: "warning" });
 };
 
 watch(

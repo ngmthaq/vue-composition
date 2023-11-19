@@ -32,7 +32,7 @@ watch(
       }
 
       toast.status = "idle";
-      toast.id = "toast_item_" + Date.now() + "_" + strUtils.random(16);
+      toast.id = Date.now() + "_" + strUtils.random(16);
       toasts.value = [...toasts.value, toast];
     }
   },
@@ -63,7 +63,7 @@ onUpdated(() => {
 
 <template>
   <div class="toast-container position-fixed bottom-0 end-0">
-    <template v-for="(toast, index) in toasts" :key="toast.id">
+    <template v-for="toast in toasts" :key="toast.id">
       <div
         class="toast align-items-center border-0 ms-0 me-1 my-1"
         role="alert"
@@ -73,13 +73,22 @@ onUpdated(() => {
         :class="`text-bg-${toast.variant}`"
       >
         <div class="d-flex">
-          <div class="toast-body">{{ toast.message + " " + index }}</div>
+          <div class="toast-body d-flex align-items-center justify-content-start">
+            <i v-if="toast.variant === 'success'" class="bi bi-check2-circle"></i>
+            <i v-else-if="toast.variant === 'danger'" class="bi bi-x-circle"></i>
+            <i v-else-if="toast.variant === 'warning'" class="bi bi-exclamation-circle"></i>
+            <i v-else-if="toast.variant === 'info'" class="bi bi-info-circle"></i>
+            <i v-else class="bi bi-bell"></i>
+            <p class="p-0 m-0 ms-2">{{ toast.message }}</p>
+          </div>
           <button
             type="button"
-            class="btn-close btn-close-white me-2 m-auto"
+            class="btn btn-sm me-2 m-auto"
             data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
+            :class="`text-bg-${toast.variant}`"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
         </div>
       </div>
     </template>
