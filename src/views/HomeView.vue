@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { usePromise, useCircularLoading } from "@/hooks";
+import { usePromise, useCircularLoading, useNotification } from "@/hooks";
 import { TodoRemoteService } from "@/services";
 
 const loading = useCircularLoading();
+
+const notification = useNotification();
 
 const id = ref<number>(1);
 
@@ -17,6 +19,10 @@ const handleClick = () => {
 
 const handleReset = () => {
   reset(true);
+};
+
+const handleNotice = () => {
+  notification.append({ message: "Test", variant: "success" });
 };
 
 watch(
@@ -34,6 +40,7 @@ watch(
   <p v-else-if="status === 'pending'">Loading</p>
   <button @click="handleClick">Change Todo</button>
   <button @click="handleReset">Clear</button>
+  <button @click="handleNotice">Notice</button>
 </template>
 
 <style></style>
