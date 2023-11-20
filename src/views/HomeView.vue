@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { usePromise, useCircularLoading, useNotification } from "@/hooks";
-import { TodoRemoteService } from "@/services";
-
-const loading = useCircularLoading();
+import type { Todo } from "@/services/models/todo.model";
+import { ref } from "vue";
+import { useNotification } from "@/hooks/customs/useNotification";
+import { usePromise } from "@/hooks/customs/usePromise";
+import { getTodo } from "@/services/remotes/todo.remote";
+import { randomNumber } from "@/plugins/number.plugins";
 
 const notification = useNotification();
+const [status, data, error, fetch, reset] = usePromise<Todo>(getTodo);
 
 const id = ref<number>(1);
 
-const [response, fetch, reset] = usePromise((configs) => new TodoRemoteService().getTodo(id.value, configs));
-
-const { data, error, status } = response;
-
 const handleClick = () => {
-  fetch();
+  id.value = randomNumber(1, 1000);
+  fetch({ id: id.value });
 };
 
 const handleReset = () => {
@@ -24,17 +23,10 @@ const handleReset = () => {
 const handleNotice = () => {
   notification.append({ message: "Test Test Test Test Test", variant: "warning" });
 };
-
-watch(
-  () => status.value,
-  (data) => {
-    data === "pending" ? loading.open() : loading.close();
-  },
-);
 </script>
 
 <template>
-  <h1>This is an home page</h1>
+  <h1>This is home page</h1>
   <p v-if="status === 'fulfilled'">Title: {{ data?.title }}</p>
   <p v-else-if="status === 'rejected'">Error: {{ error?.message }}</p>
   <p v-else-if="status === 'pending'">Loading</p>

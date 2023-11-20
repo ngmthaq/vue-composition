@@ -1,66 +1,45 @@
-import type { ComputedRef, UnwrapRef } from "vue";
-import type { UsePromiseCallback, UsePromiseOptions, UsePromiseState, UsePromiseStatus } from "@/types/hooks";
-import { computed, onBeforeMount, reactive, ref } from "vue";
+import type { AxiosRequestConfig } from "axios";
+import type { UsePromiseCallback, UsePromiseResponse, UsePromiseStatus } from "@/types/hooks";
+import { ref } from "vue";
 import { CanceledError } from "axios";
 
-export function usePromise<M>(
-  callback: UsePromiseCallback<M>,
-  options: UsePromiseOptions = { immediate: true },
-): [
-  { data: ComputedRef<UnwrapRef<M> | null>; error: ComputedRef<any>; status: ComputedRef<UsePromiseStatus> },
-  () => Promise<void>,
-  (isAbort?: boolean) => void,
-  () => void,
-] {
+export function usePromise<R>(callback: UsePromiseCallback<R>): UsePromiseResponse<R> {
   const abortController = ref<AbortController>(new AbortController());
+  const data = ref<R | null>(null);
+  const error = ref<any | null>(null);
+  const status = ref<UsePromiseStatus>("idle");
 
-  const state = reactive<UsePromiseState<M>>({
-    data: null,
-    error: null,
-    status: "idle",
-  });
-
-  const data = computed(() => state.data);
-  const error = computed(() => state.error);
-  const status = computed(() => state.status);
-
-  const fetch = async () => {
+  async function fetch<P>(payloads: P, configs: AxiosRequestConfig = {}) {
     try {
-      state.status = "pending";
-      const data: any = await callback({ signal: abortController.value.signal });
-      state.data = data;
-      state.error = null;
-      state.status = "fulfilled";
-    } catch (error: any) {
-      if (error instanceof CanceledError) {
-        console.warn(error);
-        state.status = "idle";
+      status.value = "pending";
+      const response: any = await callback(payloads, { ...configs, signal: abortController.value.signal });
+      data.value = response;
+      error.value = null;
+      status.value = "fulfilled";
+    } catch (e: any) {
+      if (e instanceof CanceledError) {
+        console.error(e);
+        status.value = "idle";
       } else {
-        console.error(error);
-        state.data = null;
-        state.error = error;
-        state.status = "rejected";
+        console.error(e);
+        data.value = null;
+        error.value = e;
+        status.value = "rejected";
       }
     }
-  };
+  }
 
-  const abort = () => {
-    abortController.value.abort("Abort API from usePromise");
+  function abort() {
+    abortController.value.abort();
     abortController.value = new AbortController();
-  };
+  }
 
-  const reset = (isAbort = false) => {
+  function reset(isAbort = false) {
     if (isAbort) abort();
-    state.data = null;
-    state.error = null;
-    state.status = "idle";
-  };
+    data.value = null;
+    error.value = null;
+    status.value = "idle";
+  }
 
-  onBeforeMount(() => {
-    if (options.immediate) {
-      fetch();
-    }
-  });
-
-  return [{ data, error, status }, fetch, reset, abort];
+  return [status, data, error, fetch, reset, abort];
 }

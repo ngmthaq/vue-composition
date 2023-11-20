@@ -1,11 +1,12 @@
 import type { ToastConfigs } from "@/types/components";
-import { APP_CONST } from "@/const";
-import { useEventBus } from "../index";
+import { APP_EVENTS } from "@/const/app.const";
+import { useEventBus } from "./useEventBus";
 
 export const useNotification = () => {
   const eventBus = useEventBus();
+
   const append = (toast: ToastConfigs) => {
-    eventBus.emit(APP_CONST.EVENT_BUS.appendToast, toast);
+    eventBus.emit(APP_EVENTS.eventBus.appendToast, toast);
   };
 
   return { append };

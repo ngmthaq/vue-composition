@@ -1,5 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import axios from "axios";
+import humps from "humps";
 
 export class Api {
   protected instance: AxiosInstance;
@@ -9,32 +10,6 @@ export class Api {
       baseURL: import.meta.env.VITE_API_BASE_URL || null,
       timeout: import.meta.env.VITE_API_TIMEOUT || 30000,
     });
-
-    this.instance.interceptors.request.use(
-      (configs) => this.handleRequestSuccess(configs),
-      (error) => this.handleRequestError(error),
-    );
-
-    this.instance.interceptors.response.use(
-      (response) => this.handleResponseSuccess(response),
-      (error) => this.handleResponseError(error),
-    );
-  }
-
-  protected handleRequestSuccess(configs: InternalAxiosRequestConfig) {
-    return configs;
-  }
-
-  protected handleRequestError(error: any) {
-    return Promise.reject(error);
-  }
-
-  protected handleResponseSuccess(response: AxiosResponse) {
-    return response;
-  }
-
-  protected handleResponseError(error: any) {
-    return Promise.reject(error);
   }
 
   protected async request(
@@ -44,8 +19,12 @@ export class Api {
     data: any = {},
     configs: AxiosRequestConfig = {},
   ) {
+    params = typeof params === "object" ? humps.decamelizeKeys(params) : params;
+    data = typeof data === "object" ? humps.decamelizeKeys(data) : data;
     const requestConfigs: AxiosRequestConfig = { ...configs, url, method, params, data };
-    return this.instance.request(requestConfigs);
+    const response = await this.instance.request(requestConfigs);
+    response.data = typeof data === "object" ? humps.camelizeKeys(response.data) : response.data;
+    return response;
   }
 
   public async get(url: string, params: any = {}, configs: AxiosRequestConfig = {}) {
@@ -66,6 +45,36 @@ export class Api {
 
   public async delete(url: string, data: any = {}, configs: AxiosRequestConfig = {}) {
     return this.request(url, "delete".toUpperCase(), {}, data, configs);
+  }
+
+  public default() {
+    this.instance.interceptors.request.clear();
+    this.instance.interceptors.response.clear();
+    this.instance.interceptors.request.use(
+      (configs) => this.handleDefaultRequestSuccess(configs),
+      (error) => this.handleDefaultRequestError(error),
+    );
+    this.instance.interceptors.response.use(
+      (response) => this.handleDefaultResponseSuccess(response),
+      (error) => this.handleDefaultResponseError(error),
+    );
+    return this;
+  }
+
+  protected handleDefaultRequestSuccess<C>(configs: InternalAxiosRequestConfig<C>) {
+    return configs;
+  }
+
+  protected handleDefaultRequestError<C>(error: C) {
+    return Promise.reject(error);
+  }
+
+  protected handleDefaultResponseSuccess(response: AxiosResponse) {
+    return response;
+  }
+
+  protected handleDefaultResponseError(error: any) {
+    return Promise.reject(error);
   }
 }
 

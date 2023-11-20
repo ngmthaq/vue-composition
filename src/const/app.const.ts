@@ -1,4 +1,6 @@
-export const EVENT_BUS = {
-  openCircularLoading: "openCircularLoading",
-  appendToast: "appendToast",
+export const APP_EVENTS = {
+  eventBus: {
+    openCircularLoading: "eventBus:openCircularLoading",
+    appendToast: "eventBus:appendToast",
+  },
 };

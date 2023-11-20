@@ -2,12 +2,12 @@
 import type { ToastConfigs } from "@/types/components";
 import { onBeforeMount, onUnmounted, onUpdated, ref, watch } from "vue";
 import { Toast } from "bootstrap";
-import { useEventBus } from "@/hooks";
-import { APP_CONST } from "@/const";
-import { strUtils } from "@/plugins";
+import { APP_EVENTS } from "@/const/app.const";
+import { useEventBus } from "@/hooks/customs/useEventBus";
+import { randomStr } from "@/plugins/str.plugin";
 
-const DELAY = 6000;
-const MAX = 5;
+const TOAST_DELAY = 6000;
+const TOAST_MAX = 5;
 
 const eventBus = useEventBus();
 
@@ -23,34 +23,34 @@ watch(
   (toast) => {
     if (toast) {
       const openedToasts = toasts.value.filter((toast) => toast.status === "opened");
-      if (openedToasts.length >= MAX) {
+      if (openedToasts.length >= TOAST_MAX) {
         const element = document.getElementById(openedToasts[0].id as string) as Element;
-        const bootstrapToast = new Toast(element, { delay: DELAY });
+        const bootstrapToast = new Toast(element, { delay: TOAST_DELAY });
         const index = toasts.value.findIndex((toast) => toast.id === openedToasts[0].id);
         toasts.value[index].status = "closed";
         bootstrapToast.hide();
       }
 
       toast.status = "idle";
-      toast.id = Date.now() + "_" + strUtils.random(16);
+      toast.id = Date.now() + "_" + randomStr(16);
       toasts.value = [...toasts.value, toast];
     }
   },
 );
 
 onBeforeMount(() => {
-  eventBus.on(APP_CONST.EVENT_BUS.appendToast, handleAppendToast);
+  eventBus.on(APP_EVENTS.eventBus.appendToast, handleAppendToast);
 });
 
 onUnmounted(() => {
-  eventBus.off(APP_CONST.EVENT_BUS.appendToast, handleAppendToast);
+  eventBus.off(APP_EVENTS.eventBus.appendToast, handleAppendToast);
 });
 
 onUpdated(() => {
   toasts.value.forEach((toast) => {
     if (toast.status === "idle") {
       const element = document.getElementById(toast.id as string) as Element;
-      const bootstrapToast = new Toast(element, { delay: DELAY });
+      const bootstrapToast = new Toast(element, { delay: TOAST_DELAY });
       bootstrapToast.show();
       toast.status = "opened";
       element.addEventListener("hidden.bs.toast", () => {

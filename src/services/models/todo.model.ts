@@ -8,7 +8,6 @@ export class Todo extends BaseModel {
 
   public constructor(userId: number, id: number, title: string, completed: boolean) {
     super();
-
     this.userId = userId;
     this.id = id;
     this.title = title;
