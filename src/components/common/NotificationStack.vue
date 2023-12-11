@@ -5,6 +5,7 @@ import { Toast } from "bootstrap";
 import { APP_EVENTS } from "@/configs/constants/app.const";
 import { useEventBus } from "@/hooks/customs/useEventBus";
 import { randomStr } from "@/plugins/str.plugin";
+import { getCurrentMilliseconds } from "@/plugins/datetime.plugin";
 
 const TOAST_DELAY = 6000;
 const TOAST_MAX = 5;
@@ -32,7 +33,7 @@ watch(
       }
 
       toast.status = "idle";
-      toast.id = Date.now() + "_" + randomStr(16);
+      toast.id = "toast_" + getCurrentMilliseconds() + "_" + randomStr(16);
       toasts.value = [...toasts.value, toast];
     }
   },
@@ -62,7 +63,7 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div class="toast-container position-fixed bottom-0 end-0">
+  <section class="toast-container position-fixed bottom-0 end-0">
     <template v-for="toast in toasts" :key="toast.id">
       <div
         class="toast align-items-center border-0 ms-0 me-1 my-1"
@@ -92,7 +93,7 @@ onUpdated(() => {
         </div>
       </div>
     </template>
-  </div>
+  </section>
 </template>
 
 <style scoped lang="scss"></style>

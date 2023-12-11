@@ -22,11 +22,11 @@ onUnmounted(() => {
 
 <template>
   <Transition>
-    <div class="circular-loading" v-show="isLoading">
+    <section class="circular-loading" v-show="isLoading">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-    </div>
+    </section>
   </Transition>
 </template>
 

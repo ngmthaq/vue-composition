@@ -6,6 +6,7 @@ import { useNotification } from "@/hooks/customs/useNotification";
 import { usePromise } from "@/hooks/customs/usePromise";
 import { getTodo } from "@/services/remotes/todo.remote";
 import { randomNumber } from "@/plugins/number.plugins";
+import BaseLayout from "@/components/layouts/BaseLayout.vue";
 
 const { t } = useI18n();
 const notification = useNotification();
@@ -28,13 +29,15 @@ const handleNotice = () => {
 </script>
 
 <template>
-  <h1>{{ t("TXT_HELLO") }}</h1>
-  <p v-if="status === 'fulfilled'">Title: {{ data?.title }}</p>
-  <p v-else-if="status === 'rejected'">Error: {{ error?.message }}</p>
-  <p v-else-if="status === 'pending'">Loading</p>
-  <button @click="handleClick">Change Todo</button>
-  <button @click="handleReset">Clear</button>
-  <button @click="handleNotice">Notice</button>
+  <BaseLayout>
+    <h1>{{ t("TXT_HELLO") }}</h1>
+    <p v-if="status === 'fulfilled'">Title: {{ data?.title }}</p>
+    <p v-else-if="status === 'rejected'">Error: {{ error?.message }}</p>
+    <p v-else-if="status === 'pending'">Loading</p>
+    <button @click="handleClick">Change Todo</button>
+    <button @click="handleReset">Clear</button>
+    <button @click="handleNotice">Notice</button>
+  </BaseLayout>
 </template>
 
 <style></style>
