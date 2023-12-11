@@ -1,4 +1,4 @@
-import { APP_EVENTS } from "@/const/app.const";
+import { APP_EVENTS } from "@/configs/constants/app.const";
 import { useEventBus } from "./useEventBus";
 
 export const useCircularLoading = () => {

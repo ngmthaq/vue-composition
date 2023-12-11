@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from "axios";
-import type { UsePromiseCallback, UsePromiseResponse, UsePromiseStatus } from "@/types/hooks";
+import type { UsePromiseCallback, UsePromiseResponse, UsePromiseStatus } from "@/configs/types/hooks";
 import { ref } from "vue";
 import { CanceledError } from "axios";
 
@@ -17,11 +17,10 @@ export function usePromise<R>(callback: UsePromiseCallback<R>): UsePromiseRespon
       error.value = null;
       status.value = "fulfilled";
     } catch (e: any) {
+      if (import.meta.env.DEV) console.error(e);
       if (e instanceof CanceledError) {
-        console.error(e);
         status.value = "idle";
       } else {
-        console.error(e);
         data.value = null;
         error.value = e;
         status.value = "rejected";

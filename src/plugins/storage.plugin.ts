@@ -9,7 +9,7 @@ export function setLocalStorage(key: string, value: any) {
     return value;
   } catch (error) {
     console.error(error);
-    return null;
+    return undefined;
   }
 }
 
@@ -17,13 +17,13 @@ export function removeLocalStorage(key: string) {
   localStorage.removeItem(key);
 }
 
-export function getLocalStorage<T>(key: string, defaultValue?: T): T | null {
+export function getLocalStorage<T>(key: string, defaultValue?: T): T | undefined {
   const value: any = localStorage.getItem(key);
   if (value !== null && isJsonString(value)) {
     const ref = JSON.parse(value);
     return ref.value;
   }
-  return defaultValue || null;
+  return defaultValue || undefined;
 }
 
 export function setSessionStorage(key: string, value: any) {
@@ -33,7 +33,7 @@ export function setSessionStorage(key: string, value: any) {
     return value;
   } catch (error) {
     console.error(error);
-    return null;
+    return undefined;
   }
 }
 
@@ -41,13 +41,13 @@ export function removeSessionStorage(key: string) {
   sessionStorage.removeItem(key);
 }
 
-export function getSessionStorage<T>(key: string, defaultValue?: T): T | null {
+export function getSessionStorage<T>(key: string, defaultValue?: T): T | undefined {
   const value: any = sessionStorage.getItem(key);
   if (value !== null && isJsonString(value)) {
     const ref = JSON.parse(value);
     return ref.value;
   }
-  return defaultValue || null;
+  return defaultValue || undefined;
 }
 
 export function setCookieStorage(key: string, value: any, options: CookieAttributes = {}) {
@@ -57,7 +57,7 @@ export function setCookieStorage(key: string, value: any, options: CookieAttribu
     return value;
   } catch (error) {
     console.error(error);
-    return null;
+    return undefined;
   }
 }
 
@@ -65,7 +65,7 @@ export function removeCookieStorage(key: string, options: CookieAttributes = {})
   Cookie.remove(key, options);
 }
 
-export function getCookieStorage(key: string, defaultValue: any = null) {
+export function getCookieStorage(key: string, defaultValue: any = undefined) {
   const value: any = Cookie.get(key);
   if (value !== null && isJsonString(value)) {
     const ref = JSON.parse(value);

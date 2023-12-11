@@ -1,5 +1,5 @@
-import type { ToastConfigs } from "@/types/components";
-import { APP_EVENTS } from "@/const/app.const";
+import type { ToastConfigs } from "@/configs/types/components";
+import { APP_EVENTS } from "@/configs/constants/app.const";
 import { useEventBus } from "./useEventBus";
 
 export const useNotification = () => {

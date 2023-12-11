@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { Todo } from "@/services/models/todo.model";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useNotification } from "@/hooks/customs/useNotification";
 import { usePromise } from "@/hooks/customs/usePromise";
 import { getTodo } from "@/services/remotes/todo.remote";
 import { randomNumber } from "@/plugins/number.plugins";
 
+const { t } = useI18n();
 const notification = useNotification();
 const [status, data, error, fetch, reset] = usePromise<Todo>(getTodo);
 
@@ -26,7 +28,7 @@ const handleNotice = () => {
 </script>
 
 <template>
-  <h1>This is home page</h1>
+  <h1>{{ t("TXT_HELLO") }}</h1>
   <p v-if="status === 'fulfilled'">Title: {{ data?.title }}</p>
   <p v-else-if="status === 'rejected'">Error: {{ error?.message }}</p>
   <p v-else-if="status === 'pending'">Loading</p>

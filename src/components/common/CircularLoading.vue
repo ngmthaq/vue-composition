@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, onUnmounted, ref } from "vue";
-import { APP_EVENTS } from "@/const/app.const";
+import { APP_EVENTS } from "@/configs/constants/app.const";
 import { useEventBus } from "@/hooks/customs/useEventBus";
 
 const eventBus = useEventBus();

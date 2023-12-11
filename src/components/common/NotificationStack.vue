@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ToastConfigs } from "@/types/components";
+import type { ToastConfigs } from "@/configs/types/components";
 import { onBeforeMount, onUnmounted, onUpdated, ref, watch } from "vue";
 import { Toast } from "bootstrap";
-import { APP_EVENTS } from "@/const/app.const";
+import { APP_EVENTS } from "@/configs/constants/app.const";
 import { useEventBus } from "@/hooks/customs/useEventBus";
 import { randomStr } from "@/plugins/str.plugin";
 
