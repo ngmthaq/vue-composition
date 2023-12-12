@@ -1,9 +1,9 @@
 import { createI18n, type Locale } from "vue-i18n";
-import { LANGUAGE_CONFIGS, LOCAL_STORAGE_KEYS } from "@/configs/constants/app.const";
+import { LANGUAGE_CONFIGS, COOKIES_STORAGE_KEYS } from "@/configs/constants/app.const";
 import vi from "@/configs/languages/vi.json";
-import { getLocalStorage } from "./storage.plugin";
+import { getCookieStorage } from "./storage.plugin";
 
-const language = getLocalStorage<Locale>(LOCAL_STORAGE_KEYS.language, LANGUAGE_CONFIGS.defaultLanguage);
+const language = getCookieStorage<Locale>(COOKIES_STORAGE_KEYS.language, LANGUAGE_CONFIGS.defaultLanguage);
 
 export const i18n = createI18n({
   legacy: false,

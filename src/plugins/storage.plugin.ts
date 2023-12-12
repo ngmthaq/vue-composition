@@ -19,7 +19,7 @@ export function removeLocalStorage(key: string) {
 
 export function getLocalStorage<T>(key: string, defaultValue?: T): T | undefined {
   const value: any = localStorage.getItem(key);
-  if (value !== null && isJsonString(value)) {
+  if (value !== null && value !== undefined && isJsonString(value)) {
     const ref = JSON.parse(value);
     return ref.value;
   }
@@ -43,7 +43,7 @@ export function removeSessionStorage(key: string) {
 
 export function getSessionStorage<T>(key: string, defaultValue?: T): T | undefined {
   const value: any = sessionStorage.getItem(key);
-  if (value !== null && isJsonString(value)) {
+  if (value !== null && value !== undefined && isJsonString(value)) {
     const ref = JSON.parse(value);
     return ref.value;
   }
@@ -65,11 +65,11 @@ export function removeCookieStorage(key: string, options: CookieAttributes = {})
   Cookie.remove(key, options);
 }
 
-export function getCookieStorage(key: string, defaultValue: any = undefined) {
+export function getCookieStorage<T>(key: string, defaultValue?: T): T | undefined {
   const value: any = Cookie.get(key);
-  if (value !== null && isJsonString(value)) {
+  if (value !== null && value !== undefined && isJsonString(value)) {
     const ref = JSON.parse(value);
     return ref.value;
   }
-  return defaultValue;
+  return defaultValue || undefined;
 }

@@ -1,3 +1,8 @@
 {
-  "TXT_HELLO": "Xin chào"
+  "TXT_ACCEPT": "Đồng ý",
+  "TXT_DENY": "Từ chối",
+  "TXT_LATER": "Để sau",
+  "TXT_HELLO": "Xin chào",
+  "TXT_REQUEST_NOTIFICATION_TITLE": "Nhận thông báo từ chúng tôi",
+  "TXT_REQUEST_NOTIFICATION_CONTENT": "Nhận thông báo từ chúng tôi để không bỏ lỡ những thông tin quan trọng. Thông báo có thể bao gồm âm thanh và các thông khác."
 }
