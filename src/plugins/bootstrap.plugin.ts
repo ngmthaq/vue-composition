@@ -12,8 +12,6 @@ import {
   Toast,
   Tooltip,
 } from "bootstrap";
-import "@/assets/scss/main.scss";
-import "bootstrap-icons/font/bootstrap-icons.scss";
 
 export const bootstrap = {
   Alert,
