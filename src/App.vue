@@ -14,4 +14,4 @@ import RequestCookies from "./components/common/RequestCookies.vue";
   <RouterView />
 </template>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
