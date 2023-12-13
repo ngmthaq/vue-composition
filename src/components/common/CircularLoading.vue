@@ -4,7 +4,6 @@ import { APP_EVENTS } from "@/configs/constants/app.const";
 import { useEventBus } from "@/hooks/customs/useEventBus";
 
 const eventBus = useEventBus();
-
 const isLoading = ref<boolean>(false);
 
 const handleOpenLoading = (open: boolean) => {
@@ -22,7 +21,7 @@ onUnmounted(() => {
 
 <template>
   <Transition>
-    <section class="circular-loading" v-show="isLoading">
+    <section id="circular-loading" class="circular-loading" v-show="isLoading">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>

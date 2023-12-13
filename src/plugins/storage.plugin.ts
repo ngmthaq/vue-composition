@@ -50,7 +50,7 @@ export function getSessionStorage<T>(key: string, defaultValue?: T): T | undefin
   return defaultValue || undefined;
 }
 
-export function setCookieStorage(key: string, value: any, options: CookieAttributes = {}) {
+export function setCookieStorage(key: string, value: any, options: CookieAttributes = { expires: 30 }) {
   try {
     const ref = { value: value };
     Cookie.set(key, JSON.stringify(ref), options);
@@ -61,7 +61,7 @@ export function setCookieStorage(key: string, value: any, options: CookieAttribu
   }
 }
 
-export function removeCookieStorage(key: string, options: CookieAttributes = {}) {
+export function removeCookieStorage(key: string, options: CookieAttributes = { expires: 30 }) {
   Cookie.remove(key, options);
 }
 

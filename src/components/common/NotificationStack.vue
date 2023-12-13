@@ -9,9 +9,7 @@ import { getCurrentMilliseconds } from "@/plugins/datetime.plugin";
 
 const TOAST_DELAY = 6000;
 const TOAST_MAX = 5;
-
 const eventBus = useEventBus();
-
 const newToast = ref<ToastConfigs>();
 const toasts = ref<ToastConfigs[]>([]);
 
@@ -63,7 +61,7 @@ onUpdated(() => {
 </script>
 
 <template>
-  <section class="toast-container position-fixed bottom-0 end-0">
+  <section id="notification-stack" class="toast-container position-fixed bottom-0 end-0">
     <template v-for="toast in toasts" :key="toast.id">
       <div
         class="toast align-items-center border-0 ms-0 me-1 my-1"

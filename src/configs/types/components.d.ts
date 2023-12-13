@@ -6,6 +6,6 @@ export type ToastConfigs = {
 };
 
 export type NotificationPermissionType = {
-  requestedAt: number;
-  isGranted: boolean;
+  time: number;
+  granted: boolean;
 };

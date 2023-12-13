@@ -2,11 +2,13 @@
 import type { Todo } from "@/services/models/todo.model";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { RouterLink } from "vue-router";
 import { useNotification } from "@/hooks/customs/useNotification";
 import { usePromise } from "@/hooks/customs/usePromise";
 import { getTodo } from "@/services/remotes/todo.remote";
 import { randomNumber } from "@/plugins/number.plugins";
 import BaseLayout from "@/components/layouts/BaseLayout.vue";
+import { PATH_ABOUT } from "@/configs/constants/path.const";
 
 const { t } = useI18n();
 const notification = useNotification();
@@ -31,12 +33,16 @@ const handleNotice = () => {
 <template>
   <BaseLayout>
     <h1>{{ t("TXT_HELLO") }}</h1>
-    <p v-if="status === 'fulfilled'">Title: {{ data?.title }}</p>
+    <p v-if="status === 'pending'">Loading</p>
+    <p v-else-if="status === 'fulfilled'">Todo: {{ data?.title }}</p>
     <p v-else-if="status === 'rejected'">Error: {{ error?.message }}</p>
-    <p v-else-if="status === 'pending'">Loading</p>
+    <p v-else>Click "Change Todo" to get new todo</p>
     <button @click="handleClick">Change Todo</button>
     <button @click="handleReset">Clear</button>
     <button @click="handleNotice">Notice</button>
+    <br />
+    <br />
+    <RouterLink :to="PATH_ABOUT.path">About</RouterLink>
   </BaseLayout>
 </template>
 
