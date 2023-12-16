@@ -65,11 +65,11 @@ export function removeCookieStorage(key: string, options: CookieAttributes = { e
   Cookie.remove(key, options);
 }
 
-export function getCookieStorage<T>(key: string, defaultValue?: T): T | undefined {
+export function getCookieStorage<T>(key: string): T | undefined {
   const value: any = Cookie.get(key);
   if (value !== null && value !== undefined && isJsonString(value)) {
     const ref = JSON.parse(value);
     return ref.value;
   }
-  return defaultValue || undefined;
+  return undefined;
 }
