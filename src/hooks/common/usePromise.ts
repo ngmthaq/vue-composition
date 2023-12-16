@@ -13,6 +13,7 @@ export function usePromise<R>(callback: UsePromiseCallback<R>): UsePromiseRespon
     try {
       status.value = "pending";
       const response: any = await callback(payloads, { ...configs, signal: abortController.value.signal });
+      if (import.meta.env.DEV) console.log(response);
       data.value = response;
       error.value = null;
       status.value = "fulfilled";

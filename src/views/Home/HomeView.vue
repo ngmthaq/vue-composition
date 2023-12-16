@@ -17,7 +17,7 @@ const [status, data, error, fetch, reset] = usePromise<Todo>(getTodo);
 const id = ref<number>(1);
 
 const handleClick = () => {
-  id.value = randomNumber(1, 1000);
+  id.value = randomNumber(1, 100);
   fetch({ id: id.value });
 };
 
