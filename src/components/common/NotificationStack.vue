@@ -3,7 +3,7 @@ import type { ToastConfigs } from "@/configs/types/components";
 import { onBeforeMount, onUnmounted, onUpdated, ref, watch } from "vue";
 import { Toast } from "bootstrap";
 import { APP_EVENTS } from "@/configs/constants/app.const";
-import { useEventBus } from "@/hooks/customs/useEventBus";
+import { useEventBus } from "@/hooks/common/useEventBus";
 import { randomStr } from "@/plugins/str.plugin";
 import { getCurrentMilliseconds } from "@/plugins/datetime.plugin";
 
