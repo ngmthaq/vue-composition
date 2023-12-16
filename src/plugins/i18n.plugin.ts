@@ -1,4 +1,5 @@
-import { createI18n, type Locale } from "vue-i18n";
+import type { Locale } from "vue-i18n";
+import { createI18n } from "vue-i18n";
 import { LANGUAGE_CONFIGS, COOKIES_STORAGE_KEYS } from "@/configs/constants/app.const";
 import vi from "@/configs/languages/vi.json";
 import { getCookieStorage } from "./storage.plugin";
