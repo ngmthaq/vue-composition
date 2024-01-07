@@ -5,9 +5,13 @@ import { useEventBus } from "./useEventBus";
 export const useNotification = () => {
   const eventBus = useEventBus();
 
-  const append = (toast: ToastConfigs) => {
+  const openAppNotification = (toast: ToastConfigs) => {
     eventBus.emit(APP_EVENTS.eventBus.appendToast, toast);
   };
 
-  return { append };
+  const openSystemNotification = (title: string, message: string, icon: string = "/favicon.ico") => {
+    return new Notification(title, { body: message, icon: icon });
+  };
+
+  return { openAppNotification, openSystemNotification };
 };
